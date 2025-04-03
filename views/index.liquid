@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.typekit.net/vkv2sse.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Boek Zoeken</title>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/mijn-boeken">Mijn Boeken</a>
+        <a href="/over">Over</a>
+    </nav>
+</header>
+<main>
+<section>
+    <h2>Zoek een boek</h2>
+    <form action="/search" method="get">
+        <input type="text" name="q" id="search" placeholder="Voer een titel in..." required>
+        <button type="submit">Zoeken</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if books.size > 0 %}
+        <h2>Zoekresultaten</h2>
+        <ul>
+            {% for book in books %}
+            <li>
+                {% if book.volumeInfo.imageLinks and book.volumeInfo.imageLinks.thumbnail %}
+                    <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Cover van {{ book.volumeInfo.title }}">
+                {% endif %}
+                <h3>{{ book.volumeInfo.title }}</h3>
+                <p>Schrijver(s): {% for author in book.volumeInfo.authors %}{{ author }}{% if forloop.last == false %}, {% endif %}{% endfor %}</p>
+                <a href="{{ book.volumeInfo.previewLink }}" target="_blank">Bekijk boek</a>
+
+                <!-- Formulier om boek toe te voegen -->
+                <form action="/add-to-shelf" method="POST">
+                    <input type="hidden" name="bookId" value="{{ book.id }}">
+                    <label for="shelf">Toevoegen aan:</label>
+                    <select name="shelf" required>
+                        <option value="3">Currently Reading</option>
+                        <option value="4">Have Read</option>
+                    </select>
+                    <button type="submit">Toevoegen</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>
+
+<section>
+    <h2>Currently Reading</h2>
+    {% if currentlyReading.size > 0 %}
+    <div class="carousel">
+        <ul>
+            {% for book in currentlyReading %}
+                <li>
+                    {% if book.volumeInfo.imageLinks and book.volumeInfo.imageLinks.thumbnail %}
+                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Cover van {{ book.volumeInfo.title }}">
+                    {% endif %}
+                    <h3>{{ book.volumeInfo.title }}</h3>
+                    <p>Schrijver(s): {% for author in book.volumeInfo.authors %}{{ author }}{% if forloop.last == false %}, {% endif %}{% endfor %}</p>
+                    <a href="{{ book.volumeInfo.previewLink }}" target="_blank">Bekijk boek</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        <p>Er zijn geen boeken in de 'Reading Now' boekenplank.</p>
+    {% endif %}
+</section>
+
+<section>
+    <h2>Gelezen Boeken</h2>
+    {% if haveRead.size > 0 %}
+    <div class="carousel">
+        <ul>
+            {% for book in haveRead %}
+                <li>
+                    {% if book.volumeInfo.imageLinks %}
+                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}">
+                    {% endif %}
+                    <h3>{{ book.volumeInfo.title }}</h3>
+                    <p>Schrijver(s): {% for author in book.volumeInfo.authors %}{{ author }}{% if forloop.last == false %}, {% endif %}{% endfor %}</p>
+                    <p>{{ book.volumeInfo.description | truncatewords: 20 }}</p>
+                    <a href="{{ book.volumeInfo.previewLink }}" target="_blank">Bekijk boek</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        <p>Er zijn nog geen boeken als gelezen gemarkeerd.</p>
+    {% endif %}
+</section>
+
+<section>
+    <h2>Aanbevolen Boeken</h2>
+    {% if recommendedBooks.size > 0 %}
+    <div class="carousel">
+        <ul>
+            {% for book in recommendedBooks %}
+                <li>
+                    {% if book.volumeInfo.imageLinks %}
+                        <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}">
+                    {% endif %}
+                    <h3>{{ book.volumeInfo.title }}</h3>
+                    <p>Schrijver(s): {% for author in book.volumeInfo.authors %}{{ author }}{% if forloop.last == false %}, {% endif %}{% endfor %}</p>
+                    <a href="{{ book.volumeInfo.previewLink }}" target="_blank">Bekijk boek</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+        <p>Geen aanbevolen boeken gevonden.</p>
+    {% endif %}
+</section>
+
+</main>
+</body>
+</html>

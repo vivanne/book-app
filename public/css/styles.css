@@ -1,0 +1,103 @@
+body {
+    font-family: "itc-avant-garde-gothic-pro", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    background-color: #fff6ee;
+    /* width: 100vw;
+    height: 100vh; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: var(--obsidion-color);
+}
+
+:root {
+    --lavender-color: #c6c2f2;
+    --obsidion-color: #262628;
+    --beige-color: #fff6ee;
+    --lime-color: #d6dc82;
+    --cherry-color: #d86072;
+}
+/* font-family: "itc-avant-garde-gothic-pro", sans-serif;
+font-weight: 500;
+font-style: normal; */
+
+/* 
+font-family: "itc-avant-garde-gothic-pro", sans-serif;
+font-weight: 700;
+font-style: normal; */
+
+p {
+    font-family: museo-slab, serif;
+    font-weight: 300;
+    font-style: normal;
+
+    color: var(--obsidion-color)
+}
+
+main {
+    width: 90vw;
+}
+
+header {
+    width: 90vw;
+    background-color: var(--cherry-color);
+    display: flex;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 2vmin;
+
+    & nav {
+        display: flex;
+        flex-direction: row;
+        gap: 5vmin;
+
+        & a {
+            text-decoration: none;
+            color: var(--beige-color);
+        }
+
+    }
+}
+
+.carousel {
+    overflow-x: auto;  /* Maakt horizontaal scrollen mogelijk */
+}
+
+ul {
+
+    width: 100%;
+    overflow-x: auto;  /* Maakt horizontaal scrollen mogelijk */
+    scroll-snap-type: x mandatory; /* Snapt naar de items */
+    /* white-space: nowrap; */
+    display: flex;
+    padding: 10px;
+    scrollbar-width: none; /* Verbergt de scrollbar op Firefox */
+    list-style-type: none;
+    flex-direction: row;
+    gap: 5vmin;
+
+
+}
+
+ul::-webkit-scrollbar {
+    display: none; /* Verbergt de scrollbar op Chrome/Safari */
+}
+
+
+ul li {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+
+    max-width: 250px;
+    width: 100%;
+    scroll-snap-align: start; 
+
+    font-family: "itc-avant-garde-gothic-pro", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
